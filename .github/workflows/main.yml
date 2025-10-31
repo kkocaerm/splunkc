@@ -1,0 +1,27 @@
+name: Deploy Splunk Saved Searches
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_to_dev:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up SSH key
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Copy savedsearches.conf to dev Splunk server
+      run: |
+        scp -r your_splunk_app/local/savedsearches.conf splunkuser@dev-splunk-server:/opt/splunk/etc/apps/your_splunk_app/local/
+
+    - name: Restart Splunk on dev server
+      run: |
+        ssh splunkuser@dev-splunk-server "sudo /opt/splunk/bin/splunk restart"
