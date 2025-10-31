@@ -20,7 +20,7 @@ jobs:
 
     - name: Copy savedsearches.conf to dev Splunk server
       run: |
-        scp -r your_splunk_app/local/savedsearches.conf splunkuser@dev-splunk-server:/opt/splunk/etc/apps/your_splunk_app/local/
+        scp -r devtutorial/local/savedsearches.conf splunkuser@dev-splunk-server:/opt/splunk/etc/apps/devtutorial/local/
 
     - name: Restart Splunk on dev server
       run: |
